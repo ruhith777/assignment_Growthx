@@ -36,6 +36,7 @@ namespace Growthx_assignment.Controllers
 
         }
 
+        //login user
         [HttpPost("login")]
         public async Task<ActionResult> login(string username, string password)
         {
