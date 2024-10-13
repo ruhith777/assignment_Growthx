@@ -22,7 +22,6 @@ namespace Growthx_assignment.Controllers
         private readonly IMongoCollection<Admin> _admins;
         private readonly IMongoCollection<Assignment> _assignments;
         private readonly IMongoCollection<User> _users;
-        private string loginId = string.Empty;
         public UserController(mongoDbService mongoDbService)
         {
             _admins = mongoDbService.Database?.GetCollection<Admin>("admin");
@@ -30,22 +29,16 @@ namespace Growthx_assignment.Controllers
             _users = mongoDbService.Database?.GetCollection<User>("user");
 
         }
-        //        - `POST /register` - Register a new user.
-        //- `POST /login` - User login.
-        //- `POST /upload` - Upload an assignment.
-        //- `GET /admins`- fetch all admins
-
+      
+        //user registration
         [HttpPost("Register")]
         public async Task<ActionResult> register(User user)
         {
-
-
             await _users.InsertOneAsync(user);
-
             return Ok(user);
-
         }
 
+        //user login
         [HttpPost("login")]
         public async Task<ActionResult> login(string username, string password)
         {
@@ -56,14 +49,10 @@ namespace Growthx_assignment.Controllers
                                             };
 
             User user = await _users.Find(filter).FirstOrDefaultAsync();
-            if (user is not null)
-            {
-                loginId = user.Id;
-            }
-            //db.admin.find({username : "admin",password : "admin"})
             return user is not null ? Ok("Login Success") : Ok("Incorrect User");
 
         }
+        
         //upload an assignment
         [HttpPost("uploadAssignment")]
         public async Task<ActionResult> uploadAssignment(Assignment assignment)
