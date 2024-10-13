@@ -24,7 +24,7 @@ namespace Growthx_assignment.Controllers
 
         }
 
-        //first register
+        //admin register
         [HttpPost("Register")]
         public async Task<ActionResult> register(Admin admin)
         {
@@ -36,7 +36,7 @@ namespace Growthx_assignment.Controllers
 
         }
 
-        //login user
+        //login admin
         [HttpPost("login")]
         public async Task<ActionResult> login(string username, string password)
         {
@@ -47,10 +47,10 @@ namespace Growthx_assignment.Controllers
                                             };
            
             var admin = await _admins.Find(filter).FirstOrDefaultAsync();
-            //db.admin.find({username : "admin",password : "admin"})
             return admin is not null ? Ok("Login Success") : Ok("Incorrect User");
              
         }
+        
         //getall adminids
         [HttpGet("GetAll")]
         public async Task<IEnumerable<Admin>> Getall()
@@ -58,7 +58,7 @@ namespace Growthx_assignment.Controllers
             return await _admins.Find(FilterDefinition<Admin>.Empty).ToListAsync();
         }
 
-        //[HttpGet("assignments")]
+        //assignments assigned to admin
         [HttpGet("GetAssignments_Admin")]
         public async Task<ActionResult> assignmentstoAdmin(string adminId)
         {
@@ -67,6 +67,7 @@ namespace Growthx_assignment.Controllers
 
         }
 
+        //Accept assignment by admin
         [HttpPost("assignments/{assigmentid}/accept")]
         public async Task<ActionResult> assignment_accept(string assigmentid)
         {
@@ -76,6 +77,7 @@ namespace Growthx_assignment.Controllers
             return Ok(assign_admin);
         }
 
+        //Reject assignment by admin
         [HttpPost("assignments/{assigmentid}/rejected")]
         public async Task<ActionResult> assignment_reject(string assigmentid)
         {
